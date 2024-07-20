@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: httpbin
+spec:
+  host: httpbin.org
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 443
+      # https://istio.io/latest/docs/reference/config/networking/destination-rule/#ClientTLSSettings
+      tls:
+        mode: SIMPLE
+        # Note: Might have bug in 1.22 if unspecified
+        # Documnet: If unspecified, SNI will be automatically set based on downstream HTTP host/authority header for SIMPLE and MUTUAL TLS modes.
+        sni: httpbin.org

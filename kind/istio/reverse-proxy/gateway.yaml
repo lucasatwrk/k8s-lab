@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: proxy
+spec:
+  # By default workloads are searched across all namespaces based on label selectors.
+  # This implies that a gateway resource in the namespace “foo” can select pods in the namespace “bar” based on labels.
+  selector:
+    istio: ingressgateway # use istio default ingress gateway
+  servers:
+  - hosts:
+    - httpbin.reverse.proxy
+    port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: proxy-cert
